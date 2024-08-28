@@ -40,7 +40,7 @@ public class ElasticClient implements SearchElastic {
 
     @Override
     public ResponseEntity<List<User>> searchIndex(String searchQuery){
-//        SearchResponse<User> search = null;
+        SearchResponse<User> search = null;
 //        try {
 //            search = esClient.search(s -> s
 //                            .index("users")
@@ -53,12 +53,12 @@ public class ElasticClient implements SearchElastic {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-//        List<User> response = new ArrayList<>();
-//
-//        for (Hit<User> hit: search.hits().hits()) {
-//            processProduct(hit.source());
-//            response.add(hit.source());
-//        }
+        List<User> response = new ArrayList<>();
+
+        for (Hit<User> hit: search.hits().hits()) {
+            processProduct(hit.source());
+            response.add(hit.source());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(new ArrayList<>());
     }
 
@@ -69,21 +69,21 @@ public class ElasticClient implements SearchElastic {
 
     @Override
     public ResponseEntity<Long> addUser(User user) {
-//        User user1 = new User("userName_1", "City bike");
-//
-//        IndexResponse response = null;
-//        try {
-//            response = esClient.index(i -> i
-//                    .index("users")
-//                    .id(user1.getUsername())
-//                    .document(user1)
-//            );
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//
-//        logger.info("Indexed with version " + response.version());
+        User user1 = new User("userName_1", "City bike");
+
+        IndexResponse response = null;
+        try {
+            response = esClient.index(i -> i
+                    .index("users")
+                    .id(user1.getUsername())
+                    .document(user1)
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        logger.info("Indexed with version " + response.version());
         return ResponseEntity.status(HttpStatus.OK).body(1L);
     }
 }
